@@ -69,7 +69,7 @@ backbot=$1
 	read opcao
 	if [[ "$opcao" = '1' ]]; then
 		if [ -f "/root/usuarios.db" ]; then
-			{
+			[[ -e "/etc/openvpn" ]] && {
 				echo ""
 				echo -e "\033[1;32mใบรับรอง Ovpn ตั้งอยู่...\033[0m"
 				rm -rf $HOME/backup.vps >/dev/null 2>&1
@@ -97,9 +97,9 @@ backbot=$1
 				echo ""
 				if [ -e /var/www/html/backup/backup.vps ]; then
 					if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
-						echo -e "\033[1;32mลิงค์\033[1;37m: \033[1;36m$IP:81/html/backup/backup.vps\033[0m"
+						echo -e "\033[1;32mลิงค์\033[1;37m: \033[1;36m$IP:82/html/backup/backup.vps\033[0m"
 					else
-						echo -e "\033[1;32mลิงค์\033[1;37m: \033[1;36m$IP:81/backup/backup.vps\033[0m"
+						echo -e "\033[1;32mลิงค์\033[1;37m: \033[1;36m$IP:82/backup/backup.vps\033[0m"
 					fi
 				else
 					echo -e "\033[1;32mแบคอัพที่\033[1;31m" ~/"backup.vps\033[0m"
@@ -110,7 +110,7 @@ backbot=$1
 				menu
 			fi
 		else
-			{
+			[[ -e "/etc/openvpn" ]] && {
 				echo ""
 				echo -e "\033[1;32mใบรับรอง Ovpn ตั้งอยู่...\033[0m"
 				echo ""
@@ -139,16 +139,20 @@ backbot=$1
 	fi
 	if [[ "$opcao" = '2' ]]; then
 		if [ -f "/root/backup.vps" ]; then
-			{
+			[[ -e "/etc/openvpn" ]] && {
 				read -p "ใบรับรอง Ovpn จะถูกกู้คืนด้วย คุณต้องการดำเนินการต่อหรือไม่? [s/n]: " -e -i s resposta
 				[[ "$resposta" = 's' ]] && {
 					echo ""
 					echo -e "\033[1;36mกำลังคืนค่าข้อมูลสำรอง..."
+					echo ""
+					cp /etc/openvpn/server.conf /root
 					sleep 2s
 					cp /root/backup.vps /backup.vps
 					cd /
 					tar -xvf backup.vps
 					rm /backup.vps
+					mv /root/server.conf /etc/openvpn
+					/etc/init.d/openvpn restart
 					echo ""
 					echo -e "\033[1;36mผู้ใช้บริการและ\033[1;36m นำเข้ารหัสผ่านสำเร็จแล้ว\033[0m"
 					echo ""
@@ -169,6 +173,9 @@ backbot=$1
 				cd /
 				tar -xvf backup.vps
 				rm /backup.vps
+				[[ -e "/etc/openvpn" ]] && {
+					rm -rf /etc/openvpn >/dev/null 2>&1
+				}
 				echo ""
 				echo -e "\033[1;36mผู้ใช้บริการและ\033[1;36m นำเข้ารหัสผ่านสำเร็จแล้ว\033[0m"
 				echo ""
@@ -177,8 +184,8 @@ backbot=$1
 			}
 		else
 			echo ""
-			echo -e "\033[1;33mไฟล์ \033[1;32mrestore.vps \033[1;33mไม่พบ!\033[0m"
-			echo -e "\033[1;33mตรวจสอบให้แน่ใจว่าอยู่ในไดเร็กทอรี /root/ ที่มีชื่อ \033[1;32mrestore.vps\033[0m"
+			echo -e "\033[1;33mไฟล์ \033[1;32mbackup.vps \033[1;33mไม่พบ!\033[0m"
+			echo -e "\033[1;33mตรวจสอบให้แน่ใจว่าอยู่ในไดเร็กทอรี /root/ ที่มีชื่อ \033[1;32mbackup.vps\033[0m"
 			echo ""
 			exit
 		fi
