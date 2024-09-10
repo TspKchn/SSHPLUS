@@ -138,17 +138,17 @@ backbot=$1
 		fi
 	fi
 	if [[ "$opcao" = '2' ]]; then
-		if [ -f "/root/restore.vps" ]; then
+		if [ -f "/root/backup.vps" ]; then
 			{
 				read -p "ใบรับรอง Ovpn จะถูกกู้คืนด้วย คุณต้องการดำเนินการต่อหรือไม่? [s/n]: " -e -i s resposta
 				[[ "$resposta" = 's' ]] && {
 					echo ""
 					echo -e "\033[1;36mกำลังคืนค่าข้อมูลสำรอง..."
 					sleep 2s
-					cp /root/restore.vps /restore.vps
+					cp /root/backup.vps /backup.vps
 					cd /
-					tar -xvf restore.vps
-					rm /restore.vps
+					tar -xvf backup.vps
+					rm /backup.vps
 					echo ""
 					echo -e "\033[1;36mผู้ใช้บริการและ\033[1;36m นำเข้ารหัสผ่านสำเร็จแล้ว\033[0m"
 					echo ""
@@ -165,10 +165,10 @@ backbot=$1
 				echo -e "\033[1;36mกำลังคืนค่าข้อมูลสำรอง..."
 				echo ""
 				sleep 2s
-				cp /root/restore.vps /restore.vps
+				cp /root/backup.vps /backup.vps
 				cd /
-				tar -xvf restore.vps
-				rm /restore.vps
+				tar -xvf backup.vps
+				rm /backup.vps
 				echo ""
 				echo -e "\033[1;36mผู้ใช้บริการและ\033[1;36m นำเข้ารหัสผ่านสำเร็จแล้ว\033[0m"
 				echo ""
