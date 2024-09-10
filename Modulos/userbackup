@@ -149,7 +149,6 @@ backbot=$1
 					cd /
 					tar -xvf backup.vps
 					rm /backup.vps
-					/etc/init.d/openvpn restart
 					echo ""
 					echo -e "\033[1;36mผู้ใช้บริการและ\033[1;36m นำเข้ารหัสผ่านสำเร็จแล้ว\033[0m"
 					echo ""
